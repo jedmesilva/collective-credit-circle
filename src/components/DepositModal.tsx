@@ -142,6 +142,8 @@ const DepositModal: React.FC = () => {
                   id="deposit-amount"
                   className="pl-8" 
                   placeholder="0,00" 
+                  type="number"
+                  inputMode="decimal"
                   value={amount}
                   onChange={(e) => {
                     // Allow only numbers and one comma
