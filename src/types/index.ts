@@ -13,6 +13,7 @@ export interface HistoryItem {
   description: string;
   value: number;
   type: 'deposit' | 'withdrawal' | 'debt-payment';
+  fundName?: string; // Optional for backward compatibility
 }
 
 export interface ApprovalItem {
@@ -22,6 +23,7 @@ export interface ApprovalItem {
   value: number | null;
   status: 'pending' | 'approved' | 'rejected';
   requesterId?: string;
+  fundName?: string; // Optional for backward compatibility
 }
 
 export interface DebtItem {

@@ -4,7 +4,7 @@ import { Home, ArrowUp, User } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 const BottomNavigation: React.FC = () => {
-  const { activeScreen, handleBackClick, handleAccountClick } = useApp();
+  const { activeScreen, handleBackClick, handleAccountClick, handleDepositClick } = useApp();
 
   return (
     <div className="fixed bottom-0 left-0 right-0">
@@ -21,7 +21,10 @@ const BottomNavigation: React.FC = () => {
           </button>
           
           <div className="transform -translate-y-4">
-            <button className="bg-primary text-white px-6 py-3 rounded-full flex items-center shadow-lg hover:bg-primary/90 transition-colors">
+            <button 
+              className="bg-primary text-white px-6 py-3 rounded-full flex items-center shadow-lg hover:bg-primary/90 transition-colors"
+              onClick={() => handleDepositClick()}
+            >
               <ArrowUp className="mr-2" size={18} />
               <span className="font-medium">Fazer Aporte</span>
             </button>

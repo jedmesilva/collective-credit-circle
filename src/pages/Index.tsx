@@ -7,6 +7,8 @@ import FundCard from '@/components/FundCard';
 import BottomNavigation from '@/components/BottomNavigation';
 import FundDetail from '@/components/FundDetail';
 import Account from '@/components/Account';
+import FundCreationModal from '@/components/FundCreationModal';
+import DepositModal from '@/components/DepositModal';
 
 const AppContent: React.FC = () => {
   const { 
@@ -14,7 +16,8 @@ const AppContent: React.FC = () => {
     activeScreen, 
     handleFundClick,
     getTotalBalance,
-    getTotalMembers
+    getTotalMembers,
+    setIsFundCreationOpen
   } = useApp();
 
   // ACCOUNT SCREEN
@@ -76,7 +79,10 @@ const AppContent: React.FC = () => {
         {/* Collective Fund Section */}
         <div className="flex justify-between items-center mb-4 mt-8">
           <h2 className="text-2xl font-bold">Fundo coletivo</h2>
-          <button className="bg-primary text-white px-4 py-2 rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+          <button 
+            className="bg-primary text-white px-4 py-2 rounded-full shadow-sm hover:bg-primary/90 transition-colors"
+            onClick={() => setIsFundCreationOpen(true)}
+          >
             + Novo fundo
           </button>
         </div>
@@ -91,6 +97,10 @@ const AppContent: React.FC = () => {
         ))}
       </div>
       <BottomNavigation />
+      
+      {/* Modals */}
+      <FundCreationModal />
+      <DepositModal />
     </div>
   );
 };

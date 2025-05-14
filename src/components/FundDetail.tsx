@@ -11,7 +11,8 @@ const FundDetail: React.FC = () => {
     selectedFund, 
     fundTab, 
     setFundTab, 
-    hideValues 
+    hideValues,
+    handleDepositClick 
   } = useApp();
 
   if (!selectedFund) return null;
@@ -53,9 +54,12 @@ const FundDetail: React.FC = () => {
 
       {/* Action Buttons */}
       <div className="flex justify-between mb-6">
-        <button className="bg-primary text-white px-4 py-3 rounded-xl flex flex-col items-center flex-1 mr-2 shadow-sm hover:bg-primary/90 transition-colors">
+        <button 
+          className="bg-primary text-white px-4 py-3 rounded-xl flex flex-col items-center flex-1 mr-2 shadow-sm hover:bg-primary/90 transition-colors"
+          onClick={() => handleDepositClick(selectedFund.id)}
+        >
           <ArrowUp size={20} className="mb-1" />
-          <span className="font-medium">Aportar</span>
+          <span className="font-medium">Aportar capital</span>
         </button>
         <button className="bg-white text-gray-900 border border-gray-300 px-4 py-3 rounded-xl flex flex-col items-center flex-1 mx-2 shadow-sm hover:bg-gray-50 transition-colors">
           <ArrowDownCircle size={20} className="mb-1" />
