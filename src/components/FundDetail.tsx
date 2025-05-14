@@ -12,7 +12,9 @@ const FundDetail: React.FC = () => {
     fundTab, 
     setFundTab, 
     hideValues,
-    handleDepositClick 
+    handleDepositClick,
+    handleCapitalRequestClick,
+    handleDebtPaymentClick
   } = useApp();
 
   if (!selectedFund) return null;
@@ -61,11 +63,17 @@ const FundDetail: React.FC = () => {
           <ArrowUp size={20} className="mb-1" />
           <span className="font-medium">Aportar capital</span>
         </button>
-        <button className="bg-white text-gray-900 border border-gray-300 px-4 py-3 rounded-xl flex flex-col items-center flex-1 mx-2 shadow-sm hover:bg-gray-50 transition-colors">
+        <button 
+          className="bg-white text-gray-900 border border-gray-300 px-4 py-3 rounded-xl flex flex-col items-center flex-1 mx-2 shadow-sm hover:bg-gray-50 transition-colors"
+          onClick={() => handleCapitalRequestClick(selectedFund.id)}
+        >
           <ArrowDownCircle size={20} className="mb-1" />
           <span className="font-medium">Solicitar capital</span>
         </button>
-        <button className="bg-white text-gray-900 border border-gray-300 px-4 py-3 rounded-xl flex flex-col items-center flex-1 ml-2 shadow-sm hover:bg-gray-50 transition-colors">
+        <button 
+          className="bg-white text-gray-900 border border-gray-300 px-4 py-3 rounded-xl flex flex-col items-center flex-1 ml-2 shadow-sm hover:bg-gray-50 transition-colors"
+          onClick={() => handleDebtPaymentClick(selectedFund.id)}
+        >
           <CreditCard size={20} className="mb-1" />
           <span className="font-medium">Pagar dívida</span>
         </button>

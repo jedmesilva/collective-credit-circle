@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/context/AppContext";
 import DepositModal from "./components/DepositModal";
 import FundCreationModal from "./components/FundCreationModal_new";
+import CapitalRequestSheet from "./components/CapitalRequestSheet";
+import DebtPaymentSheet from "./components/DebtPaymentSheet";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -27,6 +29,8 @@ const App = () => (
           {/* Global modals - available on any page */}
           <DepositModal />
           <FundCreationModal />
+          <CapitalRequestSheet />
+          <DebtPaymentSheet />
         </BrowserRouter>
       </AppProvider>
     </TooltipProvider>
