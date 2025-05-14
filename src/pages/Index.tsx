@@ -1,16 +1,14 @@
 
 import React from 'react';
 import { Menu } from 'lucide-react';
-import { AppProvider, useApp } from '@/context/AppContext';
+import { useApp } from '@/context/AppContext';
 import SummaryCard from '@/components/SummaryCard';
 import FundCard from '@/components/FundCard';
 import BottomNavigation from '@/components/BottomNavigation';
 import FundDetail from '@/components/FundDetail';
 import Account from '@/components/Account';
-import FundCreationModal from '@/components/FundCreationModal';
-import DepositModal from '@/components/DepositModal';
 
-const AppContent: React.FC = () => {
+const Index: React.FC = () => {
   const { 
     funds, 
     activeScreen, 
@@ -97,20 +95,7 @@ const AppContent: React.FC = () => {
         ))}
       </div>
       <BottomNavigation />
-      
-      {/* Modals */}
-      <FundCreationModal />
-      <DepositModal />
     </div>
-  );
-};
-
-// Wrapper component that provides context
-const Index: React.FC = () => {
-  return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
   );
 };
 

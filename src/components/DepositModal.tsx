@@ -1,16 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader,
-  DialogTitle,
-  DialogFooter
-} from '@/components/ui/dialog';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/hooks/use-toast';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 type DepositStep = 'select-fund' | 'deposit-details';
 
@@ -99,95 +94,104 @@ const DepositModal: React.FC = () => {
     : '';
 
   return (
-    <Dialog open={isDepositModalOpen} onOpenChange={setIsDepositModalOpen}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-xl">
-            {step === 'select-fund' ? 'Escolha um fundo' : 'Aportar capital'}
-          </DialogTitle>
-        </DialogHeader>
-        
-        {step === 'select-fund' ? (
-          <div className="py-4 space-y-3">
-            {funds.map((fund) => (
-              <div
-                key={fund.id}
-                className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
-                onClick={() => handleSelectFund(fund.id)}
-              >
-                <img 
-                  src={fund.image} 
-                  alt={fund.name} 
-                  className="w-12 h-12 rounded-lg object-cover mr-3" 
-                />
-                <div>
-                  <p className="font-medium">{fund.name}</p>
-                  <p className="text-sm text-gray-600">{fund.description}</p>
+    <Sheet open={isDepositModalOpen} onOpenChange={setIsDepositModalOpen}>
+      <SheetContent side="bottom" className="h-[95vh] p-0 rounded-t-xl">
+        <div className="h-full flex flex-col">
+          {/* Header */}
+          <SheetHeader className="p-4 border-b">
+            <div className="flex items-center">
+              {step === 'deposit-details' && (
+                <Button variant="ghost" size="icon" onClick={handleBack} className="mr-2">
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+              )}
+              <SheetTitle className="text-xl">
+                {step === 'select-fund' ? 'Escolha um fundo' : 'Aportar capital'}
+              </SheetTitle>
+            </div>
+          </SheetHeader>
+          
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            {step === 'select-fund' ? (
+              <div className="space-y-3">
+                {funds.map((fund) => (
+                  <div
+                    key={fund.id}
+                    className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50"
+                    onClick={() => handleSelectFund(fund.id)}
+                  >
+                    <img 
+                      src={fund.image} 
+                      alt={fund.name} 
+                      className="w-12 h-12 rounded-lg object-cover mr-3" 
+                    />
+                    <div>
+                      <p className="font-medium">{fund.name}</p>
+                      <p className="text-sm text-gray-600">{fund.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-600">Fundo selecionado</p>
+                  <p className="font-medium">{selectedFundName}</p>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium" htmlFor="deposit-amount">Valor do aporte</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
+                    <Input 
+                      id="deposit-amount"
+                      className="pl-8" 
+                      placeholder="0,00" 
+                      type="number"
+                      inputMode="decimal"
+                      value={amount}
+                      onChange={(e) => {
+                        // Allow only numbers and one comma
+                        const value = e.target.value.replace(/[^\d,]/g, '');
+                        // Ensure only one comma
+                        const commaCount = (value.match(/,/g) || []).length;
+                        if (commaCount <= 1) {
+                          setAmount(value);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium" htmlFor="deposit-description">Descrição</label>
+                  <Input 
+                    id="deposit-description"
+                    placeholder="Ex: Aporte mensal" 
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
                 </div>
               </div>
-            ))}
+            )}
           </div>
-        ) : (
-          <div className="py-4 space-y-4">
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-sm text-gray-600">Fundo selecionado</p>
-              <p className="font-medium">{selectedFundName}</p>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium" htmlFor="deposit-amount">Valor do aporte</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">R$</span>
-                <Input 
-                  id="deposit-amount"
-                  className="pl-8" 
-                  placeholder="0,00" 
-                  type="number"
-                  inputMode="decimal"
-                  value={amount}
-                  onChange={(e) => {
-                    // Allow only numbers and one comma
-                    const value = e.target.value.replace(/[^\d,]/g, '');
-                    // Ensure only one comma
-                    const commaCount = (value.match(/,/g) || []).length;
-                    if (commaCount <= 1) {
-                      setAmount(value);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium" htmlFor="deposit-description">Descrição</label>
-              <Input 
-                id="deposit-description"
-                placeholder="Ex: Aporte mensal" 
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-          </div>
-        )}
-
-        <DialogFooter>
-          {step === 'select-fund' ? (
-            <Button variant="outline" onClick={handleClose}>
-              Cancelar
-            </Button>
-          ) : (
-            <div className="flex w-full justify-between">
-              <Button variant="outline" onClick={handleBack}>
-                Voltar
+          
+          {/* Footer */}
+          <div className="border-t p-4">
+            {step === 'select-fund' ? (
+              <Button variant="outline" className="w-full" onClick={handleClose}>
+                Cancelar
               </Button>
-              <Button onClick={handleDeposit}>
+            ) : (
+              <Button onClick={handleDeposit} className="w-full">
                 Concluir aporte
               </Button>
-            </div>
-          )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            )}
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
